@@ -1,0 +1,18 @@
+{
+    "name": "lnroma/adminuser",
+    "description": "this module shell for magento for reset password for admin user",
+    "type": "magento-module",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "naumov",
+            "email": "family_89@mail.ru"
+        }
+    ],
+    "extra": {
+       "magento-force":true,
+       "map": [
+           ["shell/adminuser.php","shell/adminuser.php"]
+       ]
+    }
+}
