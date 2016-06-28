@@ -18,6 +18,7 @@ class Opensource_Shell_Adminuser extends Mage_Shell_Abstract
      */
     public function run()
     {
+        ini_set('memory_limit','-1');
         if ($this->getArg('reset')) {
             $this->_showMessage(self::IFORM_MESSAGE,'for reset usser password you need input all data in field down');
             $userName = $this->_waitForInput('Input user name:');
