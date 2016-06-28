@@ -1,14 +1,14 @@
 this is shell for magento. 
 install this module from composer:
 edit you `composer.json` and adding this module to require section 
-[code]
+```
     "require": {
       ......
       "lnroma/adminuser":"dev-master"
     }
-[/code]
+```
 and adding to section vcs repository
-[code]
+```
     "repositories": [
          ..............
          {
@@ -17,7 +17,7 @@ and adding to section vcs repository
          },  
          ..............
     ]
-[/code]
+```
 
 and type `php composer.phar update` or `composer update` if you `composer` install to system.
 
