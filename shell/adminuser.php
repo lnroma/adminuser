@@ -20,9 +20,13 @@ class Opensource_Shell_Adminuser extends Mage_Shell_Abstract
     {
         ini_set('memory_limit','-1');
         if ($this->getArg('reset')) {
+
             $this->_showMessage(self::IFORM_MESSAGE,'for reset usser password you need input all data in field down');
+
             $userName = $this->_waitForInput('Input user name:');
             $newPassword = $this->_waitForInput('New password:');
+            $salt = $this->_waitForInput('Salt for password:');
+
             $yesNoChange = $this->_waitForInput('You sure change password Y/N:');
 
             if (empty($userName)) {
@@ -36,7 +40,7 @@ class Opensource_Shell_Adminuser extends Mage_Shell_Abstract
             }
 
             if(strtolower($yesNoChange) == 'y') {
-                $this->_setNewPassword($userName,$newPassword);
+                $this->_setNewPassword($userName,$newPassword,$salt);
             } else {
                 $this->_showMessage(self::ERROR_MESSAGE,'You need type "y" for approve change');
                 die();
@@ -52,7 +56,7 @@ class Opensource_Shell_Adminuser extends Mage_Shell_Abstract
      * @param $userName
      * @param $password
      */
-    protected function _setNewPassword($userName,$password)
+    protected function _setNewPassword($userName,$password,$salt = null)
     {
         /** @var  Mage_Admin_Model_Resource_User_Collection $adminUsersCollection */
         $adminUsersCollection = Mage::getModel('admin/user')->getCollection();
@@ -64,8 +68,13 @@ class Opensource_Shell_Adminuser extends Mage_Shell_Abstract
         $adminData = reset($adminData);
         /** @var Mage_Admin_Model_User $userModel */
         $userModel = Mage::getModel('admin/user')->load($adminData['user_id']);
+        /** @var Mage_Customer_Model_Customer $customer */
+        $customer = Mage::getModel('customer/customer');
         try {
-            $userModel->setPassword(md5($password));
+            $userModel->setPassword(
+                $customer->hashPassword($password),
+                $salt
+            );
             $userModel->save();
         } catch (Exception $error) {
             $this->_showMessage(self::ERROR_MESSAGE,$error->getMessage());
