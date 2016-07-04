@@ -66,7 +66,13 @@ class Opensource_Shell_Adminuser extends Mage_Shell_Abstract
             ->load();
         $adminData = $adminUsersCollection->getData();
         $adminData = reset($adminData);
+
         /** @var Mage_Admin_Model_User $userModel */
+        if(!isset($adminData['user_id'])) {
+            $this->_showMessage(self::ERROR_MESSAGE,'This user not exist');
+            die();
+        }
+
         $userModel = Mage::getModel('admin/user')->load($adminData['user_id']);
         /** @var Mage_Customer_Model_Customer $customer */
         $customer = Mage::getModel('customer/customer');
